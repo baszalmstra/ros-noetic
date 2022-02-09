@@ -1,0 +1,82 @@
+pool:
+  vmImage: ubuntu-latest
+trigger:
+- buildbranch_linux
+pr: none
+stages:
+- stage: stage_0
+  jobs:
+  - job: stage_0_job_0
+    steps:
+    - script: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-mbf-utility ros-noetic-mbf-abstract-core ros-noetic-turtlebot3-teleop
+          ros-noetic-turtlebot3-description ros-noetic-hls-lfcd-lds-driver
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      displayName: Build ros-noetic-mbf-utility ros-noetic-mbf-abstract-core ros-noetic-turtlebot3-teleop
+        ros-noetic-turtlebot3-description ros-noetic-hls-lfcd-lds-driver
+  - job: stage_0_job_1
+    steps:
+    - script: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-turtlebot3-msgs ros-noetic-mbf-msgs ros-noetic-libg2o
+          ros-noetic-costmap-converter
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      displayName: Build ros-noetic-turtlebot3-msgs ros-noetic-mbf-msgs ros-noetic-libg2o
+        ros-noetic-costmap-converter
+- stage: stage_1
+  jobs:
+  - job: stage_1_job_0
+    steps:
+    - script: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-mbf-costmap-core ros-noetic-turtlebot3-bringup
+          ros-noetic-turtlebot3-fake
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      displayName: Build ros-noetic-mbf-costmap-core ros-noetic-turtlebot3-bringup
+        ros-noetic-turtlebot3-fake
+- stage: stage_2
+  jobs:
+  - job: stage_2_job_0
+    steps:
+    - script: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-teb-local-planner ros-noetic-turtlebot3-slam ros-noetic-turtlebot3-navigation
+          ros-noetic-turtlebot3-example
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      displayName: Build ros-noetic-teb-local-planner ros-noetic-turtlebot3-slam ros-noetic-turtlebot3-navigation
+        ros-noetic-turtlebot3-example
+- stage: stage_3
+  jobs:
+  - job: stage_3_job_0
+    steps:
+    - script: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/run_docker_build.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-turtlebot3
+        DOCKER_IMAGE: condaforge/linux-anvil-cos7-x86_64
+      displayName: Build ros-noetic-turtlebot3

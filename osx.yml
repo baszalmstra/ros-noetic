@@ -1,0 +1,34 @@
+pool:
+  vmImage: macOS-10.15
+trigger:
+- buildbranch_osx
+pr: none
+stages:
+- stage: stage_0
+  jobs:
+  - job: stage_0_job_0
+    steps:
+    - script: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-mbf-utility ros-noetic-mbf-abstract-core ros-noetic-mbf-msgs
+          ros-noetic-libg2o ros-noetic-costmap-converter
+      displayName: Build ros-noetic-mbf-utility ros-noetic-mbf-abstract-core ros-noetic-mbf-msgs
+        ros-noetic-libg2o ros-noetic-costmap-converter
+- stage: stage_1
+  jobs:
+  - job: stage_1_job_0
+    steps:
+    - script: |
+        export CI=azure
+        export GIT_BRANCH=$BUILD_SOURCEBRANCHNAME
+        export FEEDSTOCK_NAME=$(basename ${BUILD_REPOSITORY_NAME})
+        .scripts/build_osx.sh
+      env:
+        ANACONDA_API_TOKEN: $(ANACONDA_API_TOKEN)
+        CURRENT_RECIPES: ros-noetic-mbf-costmap-core ros-noetic-teb-local-planner
+      displayName: Build ros-noetic-mbf-costmap-core ros-noetic-teb-local-planner
